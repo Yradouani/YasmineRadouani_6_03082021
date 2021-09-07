@@ -3,9 +3,9 @@ import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
 
 export const signUp = async (req, res, next) => {
-    // delete req.body._id;
+    delete req.body._id;
     bcrypt.hash(req.body.password, 10)
-        .then(hash => {
+        try {hash => {
             const user = new User({
             email: req.body.email,
             password: hash
@@ -13,11 +13,13 @@ export const signUp = async (req, res, next) => {
             user.save()
             .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
             .catch(error => res.status(400).json({ error }));
-        })
-        .catch(error => res.status(500).json({ error }))
+        }}
+        catch (erreur) {
+          throw erreur;
+        }
     next()
 }
-export const logIn = async (req, res, next) => {
+export const logIn = (req, res, next) => {
     User.findOne({ email: req.body.email })
     .then(user => {
       if (!user) {
@@ -40,5 +42,5 @@ export const logIn = async (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
     })
     .catch(error => res.status(500).json({ error }));
-    next()
+    
 }

@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import routes from "./routes/routes.js";
+import router from "./routes/routes.js";
 import app from "./app.js";
 import http from 'http';
 import bodyParser from "body-parser";
@@ -18,8 +18,9 @@ const normalizePort = val => {
     }
     return false;
   };
-const PORT = normalizePort(process.env.PORT || '3000');
-app.use('/api', routes);
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+app.use('/api', router);
 // app.use(bodyParser.json());
 mongoose.connect(process.env.MONGODB, {
     useNewUrlParser: true,
@@ -56,8 +57,8 @@ const errorHandler = error => {
     console.log('Listening on ' + bind);
   });
 
-app.listen(PORT, () => {
-    console.log(`Le serveur est lancé sur le port : ${PORT}`)
+server.listen(port, () => {
+    console.log(`Le serveur est lancé sur le port : ${port}`)
 })
 
 export default app;

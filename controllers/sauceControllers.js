@@ -10,7 +10,7 @@ export const getAllSauces = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
     next()
 }
-export const getOneSauce = async (req, res, next) => {
+export const getOneSauce = (req, res, next) => {
     console.log(req.params)
     // const oneSauce = await Sauce.find({_id : req.params.id})
     // res.send(oneSauce)
@@ -55,7 +55,7 @@ export const deleteSauce = (req, res, next) => {
     })
     next()
 }
-export const likeSauce = async (req, res, next) => {
+export const likeSauce = (req, res, next) => {
     res.send(req.body)
     next()
 }
